@@ -1,0 +1,3 @@
+config default
+set CC g++
+set CCVer c++20
