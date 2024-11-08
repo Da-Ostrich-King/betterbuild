@@ -15,6 +15,9 @@ public:
 private:
     // i hate this
     // anyway, vector of pairs, each pair has a string (config keyword), and a vector of strings (keyword arguments)
+
+    std::string fileBuffer;
+
     std::vector< ConfigValue > rawConfigValues;
 
     std::map<std::string, std::vector< ConfigValue > > configurations;
