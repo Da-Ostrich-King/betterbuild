@@ -1,25 +1,28 @@
-#include <string>
-#include <map>
 #include <vector>
+#include <string>
 
-typedef std::pair< std::string, std::vector< std::string > > ConfigValue;
-//                     ^ keyword    ^ arguments  ^ argument 
+class Binary {
+public:
+    Binary( std::string name, std::string CC, std::vector< std::string > args, std::vector< std::string > sources);
+    ~Binary();
+
+
+    std::string name;
+    std::string CC;
+    std::vector< std::string > sources;
+    std::vector< std::string > args;
+private:
+
+};
+
 
 class Config {
 public:
-    Config( std::string file_path );
-
-    // returns by value
-    const std::vector< ConfigValue > getConfiguration( std::string configName );
+    Config();
+    ~Config();
+    void addBinary( Binary bin );
+    const Binary getBinary( int index );
 
 private:
-    // i hate this
-    // anyway, vector of pairs, each pair has a string (config keyword), and a vector of strings (keyword arguments)
-
-    std::string fileBuffer;
-
-    std::vector< ConfigValue > rawConfigValues;
-
-    std::map<std::string, std::vector< ConfigValue > > configurations;
+    std::vector< Binary > bins;
 };
-

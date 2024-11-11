@@ -1,2 +1,2 @@
 CompileFlags:
-    Add: ["-D", "debug"]
+    Add: ["-D", "debug", "--std=c++20"]
