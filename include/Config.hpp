@@ -1,3 +1,7 @@
+#pragma once
+
+#include <filesystem>
+#include <filesystem>
 #include <vector>
 #include <string>
 
@@ -9,7 +13,7 @@ public:
 
     std::string name;
     std::string CC;
-    std::vector< std::string > sources;
+    std::vector< std::filesystem::path > sources;
     std::vector< std::string > args;
 private:
 

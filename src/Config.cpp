@@ -17,7 +17,7 @@ const Binary Config::getBinary( int index ) {
 
 
 
-Binary::Binary( std::string name, std::string CC, std::vector< std::string > args, std::vector< std::string > srcs) 
+Binary::Binary( std::string name, std::string CC, std::vector< std::string > args, std::vector< std::filesystem::path > srcs) 
 : sources(srcs),
   CC(CC),
   name(name),
