@@ -1,6 +1,8 @@
 #include "../include/ConfigManager.hpp"
 #include "../include/Config.hpp"
 
+#include <cstdlib>
+#include <sys/wait.h>
 #include <filesystem>
 #include <vector>
 #include <unistd.h>
@@ -63,7 +65,7 @@ void compile( Binary bin, std::filesystem::path dest) { // this funcion would ge
 
         if ( child_pids[ iterator ] == 0 ) { // fork succeeded, child time
             // YOLO
-            exec( ( const char * ) pRealCommandUnsafe[0], ( const char ** ) pRealCommandUnsafe);
+            execvp( ( const char * ) pRealCommandUnsafe[0], ( char *const * ) pRealCommandUnsafe);
         } else if ( child_pids[ iterator ] == -1 ) { // fork failed
             std::cerr << "Fork() Failed, i don't know how what you could do to fix this so you're on your own bud\n";
             exit( 1 );
@@ -81,10 +83,10 @@ void compile( Binary bin, std::filesystem::path dest) { // this funcion would ge
     child_stat.resize( child_pids.size() );
 
     for ( int i = 0; i < child_pids.size(); i++ ) {
-        waitpid( child_pids[ i ], &child_stat[ i ] );
+        waitpid( child_pids[ i ], &child_stat[ i ], 0 );
         if ( WIFEXITED( child_stat[ i ] ) ) {
-            if ( WEXITSTATUS != 0 ) {
-                std::cerr << "";
+            if ( WEXITSTATUS( child_stat[ i ] ) != 0 ) {
+                std::cerr << "error, exit status non zero on compile command" << WEXITSTATUS( child_stat[ i ] ) << "\n";
             }
         }
     }
