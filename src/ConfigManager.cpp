@@ -17,13 +17,14 @@ ConfigManager::ConfigManager( std::string file_path ) {
     std::string tmp;
 
     while ( std::getline( file,  tmp ) ) {
-        fileBuffer += tmp += "\n";
+        if (tmp == "") continue;
+        fileBuffer += tmp; fileBuffer += "\n";
     }
     file.close();
 
 
 
-    fileBuffer += "\n";
+    // fileBuffer += "\n";
 
     // Parse the file into rawConfigValues
 
@@ -32,6 +33,7 @@ ConfigManager::ConfigManager( std::string file_path ) {
     std::string wordBuff;
     for ( char ch : fileBuffer ) {
         if ( ch == '\n' ) {
+            configBuff.second.push_back(wordBuff);
             rawConfigValues.push_back( configBuff );
             configBuff = {};
             wordBuff = "";
@@ -47,14 +49,15 @@ ConfigManager::ConfigManager( std::string file_path ) {
         }
     }
 
-    std::vector< ConfigValue > configBuffVec;
-    for ( auto searchForConfig : rawConfigValues ) {
-        if ( searchForConfig.first == "config" ) {
-            configurations[ configBuffVec[ 0 ].second[ 0 ] ] = configBuffVec;
-            configBuffVec = {};
+
+    std::vector< ConfigValue > configVecBuff;
+    for (ConfigValue cfgval : rawConfigValues) {
+        configVecBuff.push_back(cfgval);
+        if (cfgval.first == "config") {
+            configurations[ cfgval.second[ 0 ] ] = configVecBuff;
         }
-        configBuffVec.push_back( searchForConfig );
     }
+
 
 #ifdef debug
     // debugging shit
