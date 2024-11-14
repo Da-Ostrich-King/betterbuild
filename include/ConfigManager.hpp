@@ -20,6 +20,6 @@ private:
 
     std::vector< ConfigValue > rawConfigValues;
 
-    std::map<std::string, std::vector< ConfigValue > > configurations;
+    std::map< std::string, std::vector< ConfigValue > > configurations;
 };
 
