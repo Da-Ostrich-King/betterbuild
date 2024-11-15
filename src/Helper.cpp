@@ -85,10 +85,12 @@ void helper::compile( Binary bin, std::filesystem::path dest) { // this funcion 
         pRealCommandUnsafe[ i ] = ( char* ) bin.args[ i - 1 ].c_str();
     }
     for ( auto src : bin.sources ) {
-        pRealCommandUnsafe[ i ] = ( char * ) src.generic_string().c_str();
+        pRealCommandUnsafe[ i ] = ( char * ) src.generic_string().concat(".o").file_name().c_str();
+        i++;
     }
 
-
+    pRealCommandUnsafe[ i ] = ( char * ) "-o";
+    pRealCommandUnsafe[ ++i ] = ( char * ) bin.name.c_str();
 
 }
 
