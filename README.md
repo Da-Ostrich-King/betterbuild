@@ -4,7 +4,7 @@ run make to build this, to build your own project, keep reading
 # Configuration
 
 The configuration file must be named ```BuildFile``` or be specified at runtime
-The configuration file has a simple syntax of ```keyword arg1 arg2 # comment```
+The configuration file has a simple syntax of ```keyword arg1 arg2 # comment```.
 
 Use the ```set``` keyword to set settings, ie c compiler, target archetecture, etc. it is basically search and replace on the file, the below mentioned are "special" set values that are used in directly by the build system
 
