@@ -1,7 +1,5 @@
 #include "../include/ConfigManager.hpp"
-#include "../include/Config.hpp"
 
-#include <filesystem>
 #include <iostream>
 #include <unistd.h>
 

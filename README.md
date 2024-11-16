@@ -24,9 +24,10 @@ Sample configuration:
             arg -Iinclude -d _debug -g --std=c++20 # setting includedir and defining debug, adding debug symbols, cxx version
 
 # NOTES 
-Cannot be run as root unless the special "install" config is selected or configuration contains the substring "install" like "installHeaders"
-Will not ever support windows unless someone else does it, there is no "fork()" or "exec()" or other unix syscalls
-May support Macos but I don't have a Mac for testing
+Cannot be run as root unless the special "install" config is selected or configuration contains the substring "install" like "installHeaders".
+
+Will not ever support windows unless someone else does it, there is no "fork()" or "exec()" or other unix syscalls.
+May support Macos but I don't have a Mac for testing.
 
 
 
