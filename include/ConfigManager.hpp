@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 
-typedef std::pair< std::string, std::vector< std::string > > ConfigValue;
+typedef std::pair< std::string, std::vector< std::string > > ConfigKey;
 //                     ^ keyword    ^ arguments  ^ argument 
 
 class ConfigManager {
@@ -12,7 +12,7 @@ public:
     ConfigManager( std::string file_path );
 
     // returns by value
-    const std::vector< ConfigValue > getConfiguration( std::string configName );
+    const std::vector< ConfigKey > getConfiguration( std::string configName );
 
 private:
     // i hate this
@@ -20,8 +20,8 @@ private:
 
     std::string fileBuffer;
 
-    std::vector< ConfigValue > rawConfigValues;
+    std::vector< ConfigKey > rawConfigValues;
 
-    std::map< std::string, std::vector< ConfigValue > > configurations;
+    std::map< std::string, std::vector< ConfigKey > > configurations;
 };
 

@@ -2,7 +2,6 @@
 #include "../include/ConfigManager.hpp"
 #include "../include/Config.hpp"
 
-#include <cstddef>
 #include <filesystem>
 #include <vector>
 #include <iostream>
@@ -10,6 +9,7 @@
 #include <cstdlib>
 #include <sys/wait.h>
 #include <string>
+#include <array>
 
 void helper::compile( Binary bin, std::filesystem::path dest) { // this funcion would get me fired because im pretending this is c
     std::vector< pid_t > child_pids;
@@ -76,26 +76,26 @@ void helper::compile( Binary bin, std::filesystem::path dest) { // this funcion 
     std::cout << "Object Compilation finished\n";
     std::cout << "Starting Final Compilation\n";
 
-    char **pRealCommandUnsafe = new char*[ 4 + bin.args.size() + bin.sources.size() ];
-    pRealCommandUnsafe[ 0 ] = ( char * ) bin.CC.c_str();
+    char const **pRealCommandUnsafe = new char const*[ 4 + bin.args.size() + bin.sources.size() ];
+    pRealCommandUnsafe[ 0 ] = bin.CC.c_str();
     
     int i = 1;
     for ( i = 1; i < bin.args.size(); i++ ) {
         // someone is going to kill me over this, but fuck why not
-        pRealCommandUnsafe[ i ] = ( char* ) bin.args[ i - 1 ].c_str();
+        pRealCommandUnsafe[ i ] = bin.args[ i - 1 ].c_str();
     }
     for ( auto src : bin.sources ) {
-        pRealCommandUnsafe[ i ] = ( char * ) src.concat(".o").filename().c_str();
+        pRealCommandUnsafe[ i ] = src.concat(".o").filename().c_str();
         i++;
     }
 
-    pRealCommandUnsafe[ i ] = ( char * ) "-o";
-    pRealCommandUnsafe[ ++i ] = ( char * ) bin.name.c_str();
+    pRealCommandUnsafe[ i ] = "-o";
+    pRealCommandUnsafe[ ++i ] = bin.name.c_str();
 
 }
 
 
-void helper::build( std::vector< ConfigValue > config /* not parsed yet */) { // config at this point is only tokenized, not parsed
+void helper::build( std::vector< ConfigKey > config /* not parsed yet */) { // config at this point is only tokenized, not parsed
     /* make the required directories if they don't exist */
 
     /* build folder */
@@ -114,3 +114,38 @@ void helper::build( std::vector< ConfigValue > config /* not parsed yet */) { //
     }
 
 }
+
+
+
+helper::CmdlineArgs helper::parseArgs( int argc, char **argv ) {
+    helper::CmdlineArgs args;
+    for ( int arg; arg < argc; ++arg ) {
+        if ( std::string( argv[ arg ] ) == std::string( "--help" ) || 
+             std::string( argv[ arg ] ) == std::string( "-h" )) {
+            args.help = true;
+
+        } else if ( std::string( argv[ arg ] ) == std::string( "--file" ) ||
+                    std::string ( argv[ arg ] ) == std::string( "-f" ) ) {
+            args.file = std::string( argv[ ++arg ] );
+        } else if ( std::string( argv[ arg ] ) == std::string( "--nocheck" ) ) {
+            args.noCheck = true;
+            
+#ifdef debug
+        } else if ( std::string( argv[ arg ] ) == std::string( "--dryrun" ) ) {
+            args.dryRun = true;
+        
+#endif
+
+        } else {
+            if ( args.config != "" ) {
+                args.configOpts.emplace_back( argv[ arg ] );
+            }
+            args.config = std::string( argv[ arg ] );
+        }
+    }
+
+
+    return args;
+}
+
+

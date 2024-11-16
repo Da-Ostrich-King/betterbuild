@@ -28,7 +28,7 @@ ConfigManager::ConfigManager( std::string file_path ) {
 
     // Parse the file into rawConfigValues
 
-    ConfigValue configBuff;
+    ConfigKey configBuff;
 
     std::string wordBuff;
     bool isComment;
@@ -64,8 +64,8 @@ ConfigManager::ConfigManager( std::string file_path ) {
     }
 
 
-    std::vector< ConfigValue > configVecBuff;
-    for (ConfigValue cfgval : rawConfigValues) {
+    std::vector< ConfigKey > configVecBuff;
+    for (ConfigKey cfgval : rawConfigValues) {
         configVecBuff.push_back(cfgval);
         if (cfgval.first == "config") {
             configurations[ cfgval.second[ 0 ] ] = configVecBuff;
@@ -75,7 +75,7 @@ ConfigManager::ConfigManager( std::string file_path ) {
 
 #ifdef debug
     // debugging shit
-    for ( ConfigValue cfgval : rawConfigValues) {
+    for ( ConfigKey cfgval : rawConfigValues) {
         std::cout << cfgval.first << " ";
         for (std::string arg : cfgval.second) {
             std::cout << arg << " ";
@@ -86,6 +86,6 @@ ConfigManager::ConfigManager( std::string file_path ) {
 
 }
 
-const std::vector< ConfigValue > ConfigManager::getConfiguration( std::string configName) {
+const std::vector< ConfigKey > ConfigManager::getConfiguration( std::string configName) {
     return configurations[ configName ];
 }

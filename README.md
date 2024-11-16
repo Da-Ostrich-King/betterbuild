@@ -6,7 +6,7 @@ run make to build this, to build your own project, keep reading
 The configuration file must be named ```BuildFile``` or be specified at runtime
 The configuration file has a simple syntax of ```keyword arg1 arg2 # comment```.
 
-Use the ```set``` keyword to set settings, ie c compiler, target archetecture, etc. it is basically search and replace on the file, the below mentioned are "special" set values that are used in directly by the build system
+Use the ```set``` keyword to set settings, ie c compiler, target archetecture, etc. it is basically search and replace on the file, the below mentioned are "special" set values that are used in directly by the build system. // Not Implemented
 
 - CC # compiler
 
@@ -37,3 +37,4 @@ May support Macos but I don't have a Mac for testing.
 - [x] Do final compilation in compile function
 - [x] File tokenization
 - [ ] Implement build function with parsing and all that bullshit
+- [ ] Segfaults, prob from config value parsing failure to map into configurations std::map
