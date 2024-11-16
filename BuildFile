@@ -1,3 +1,5 @@
 config default
-set CC g++
-set CCVer c++20
+    set CC g++ # omg commnet
+    set CCVer c++20
+
+#omg a commment

@@ -31,8 +31,22 @@ ConfigManager::ConfigManager( std::string file_path ) {
     ConfigValue configBuff;
 
     std::string wordBuff;
+    bool isComment;
     for ( char ch : fileBuffer ) {
-        if ( ch == '\n' ) {
+        if ( isComment ) {
+            if ( ch == '\n' ) {
+                isComment = false;
+            }
+            continue;
+        }
+        if ( ch == '#' ) {
+            isComment = true;
+            configBuff.second.push_back( wordBuff );
+            rawConfigValues.push_back( configBuff );
+            configBuff = {};
+            wordBuff = "";
+            continue;
+        } else if ( ch == '\n' ) {
             configBuff.second.push_back(wordBuff);
             rawConfigValues.push_back( configBuff );
             configBuff = {};

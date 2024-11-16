@@ -7,7 +7,7 @@
 
 class Binary {
 public:
-    Binary( std::string name, std::string CC, std::vector< std::string > args, std::vector< std::string > sources);
+    Binary( std::string name, std::string CC, std::vector< std::string > args, std::vector< std::filesystem::path > sources);
     ~Binary();
 
 
