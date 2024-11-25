@@ -9,7 +9,6 @@
 #include <cstdlib>
 #include <sys/wait.h>
 #include <string>
-#include <array>
 
 void helper::compile( Binary bin, std::filesystem::path dest) { // this funcion would get me fired because im pretending this is c
     std::vector< pid_t > child_pids;
