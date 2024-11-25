@@ -24,22 +24,22 @@ void helper::compile( Binary bin, std::filesystem::path dest) { // this funcion 
             // check if it is newer than source file
             if ( std::filesystem::last_write_time( objFile ) < std::filesystem::last_write_time( src ) ) { // if objFile is older than source, recompile
                 // never used the heap before
-                char **pRealCommandUnsafe = new char*[ 4 ];
-                pRealCommandUnsafe[ 0 ] = ( char * ) bin.CC.c_str();
+                char const **pRealCommandUnsafe = new char const *[ 4 ];
+                pRealCommandUnsafe[ 0 ] = bin.CC.c_str();
                 
                 int i = 1;
                 
 
                 // please don't crash
-                pRealCommandUnsafe[ i ] = ( char * ) "-o";
-                pRealCommandUnsafe[ ++i ] = ( char * ) std::string( src.generic_string() + ".o" ).c_str();
-                pRealCommandUnsafe[ ++i ] = ( char * ) "-c";
+                pRealCommandUnsafe[ i ] = "-o";
+                pRealCommandUnsafe[ ++i ] = std::string( src.generic_string() + ".o" ).c_str();
+                pRealCommandUnsafe[ ++i ] = "-c";
 
                 child_pids[ iterator ] = fork();
 
                 if ( child_pids[ iterator ] == 0 ) { // fork succeeded, child time
                     // YOLO
-                    execvp( ( const char * ) pRealCommandUnsafe[0], ( char *const * ) pRealCommandUnsafe);
+                    execvp( pRealCommandUnsafe[0], pRealCommandUnsafe );
                     exit( 0 ); // unreachable but safety
                 } else if ( child_pids[ iterator ] == -1 ) { // fork failed
                     std::cerr << "Fork() Failed, i don't know how what you could do to fix this so you're on your own bud\n";
@@ -90,6 +90,8 @@ void helper::compile( Binary bin, std::filesystem::path dest) { // this funcion 
 
     pRealCommandUnsafe[ i ] = "-o";
     pRealCommandUnsafe[ ++i ] = bin.name.c_str();
+    execvp( pRealCommandUnsafe[0], pRealCommandUnsafe );
+
 
 }
 
